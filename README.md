@@ -1,4 +1,5 @@
-##1 SSM 整合工程结构
+# SSM 框架整合
+## 1 SSM 整合工程结构
 
 整体工程的目录结构：
 
@@ -18,7 +19,7 @@
 <div align="center"><img src="https://pic.downk.cc/item/5e4389242fb38b8c3cc6aed2.jpg"></div>
 <br>
 
-##2 具体配置
+## 2 具体配置
 
 * 数据库：
 

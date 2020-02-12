@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/context
+	https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 开启包扫描，扫描 service 层和 AOP 切面类 -->
+    <context:component-scan base-package="com.it.service, com.it.aspect"/>
+    <!-- 启动基于注解的声明式 AspectJ 支持 -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 配置数据库数据源，c3p0连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!-- 配置连接池属性 -->
+        <!-- 数据库驱动 -->
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <!-- 连接数据库的 url，如果使用 MySQL8 要加 allowPublicKeyRetrieval=true -->
+        <property name="jdbcUrl"
+                  value="jdbc:mysql://localhost:3306/test?characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=Hongkong&amp;allowPublicKeyRetrieval=true"/>
+        <!-- 连接数据库的用户名 -->
+        <property name="user" value="root"/>
+        <!-- 连接数据库的密码 -->
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!-- 配置 Spring 框架声明式事务管理 -->
+    <!-- 事务管理器，依赖于数据源 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 开启 Spring 事务注解 -->
+    <!-- transaction-manager 可以不指定，会自动装配 transactionManager-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 配置 Mybatis 的 SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 指定 Mybatis 核心配置文件位置 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <!-- 配置 mapper 扫描器，让指定包下的 Mapper 接口成为 Spring 容器中的 Bean 对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- mapper 接口所在包路径 -->
+        <property name="basePackage" value="com.it.mapper"/>
+        <!-- 指定 SqlSessionFactory 的 Bean 名称 -->
+        <!-- sqlSessionFactoryBeanName 可以不指定，会自动装配 sqlSessionFactory-->
+        <!-- 但是，如果使用多个 DataSource，自动装配可能会失效，此时需要指定 -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>

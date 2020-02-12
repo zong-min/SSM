@@ -630,6 +630,7 @@ Customer(id=1, username=joy, jobs=doctor, phone=11111111111)
 
 <div align="center"><img src="https://pic.downk.cc/item/5e43abbd2fb38b8c3ccd441a.jpg"></div>
 <div align="center"><img src="https://pic.downk.cc/item/5e43b6052fb38b8c3ccf1cd2.jpg"></div>
+
 * 直接启动 tomcat 会直接报错，查看 web 工程输出文件 out，发现少了 jar 包依赖的文件夹 lib：
 
 <div align="center"><img src="https://pic.downk.cc/item/5e43b6b32fb38b8c3ccf3bac.jpg"></div>
@@ -637,6 +638,7 @@ Customer(id=1, username=joy, jobs=doctor, phone=11111111111)
 
 <div align="center"><img src="https://pic.downk.cc/item/5e22ac902fb38b8c3c5564d3.jpg"></div>
 <div align="center"><img src="https://pic.downk.cc/item/5e43b80b2fb38b8c3ccf7333.jpg"></div>
+
 * 再次启动 tomcat，如果启动成功，浏览器访问 `http://localhost:8080/query/1`：
 
 <div align="center"><img src="https://pic.downk.cc/item/5e43b9572fb38b8c3ccfb1f6.jpg"></div>
